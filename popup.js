@@ -10,26 +10,29 @@ function click(e) {
 
 function exportTabs(e) {
     alert("Export tabs");
-    alert(tabObjects.length);
-    alert(tabObjects);
     chrome.runtime.sendMessage({ message: "save_text", data: tabObjects});
 }
 
 var tabController = {};
 var dumpTabs = {};
 var tabObjects = [];
+
 document.addEventListener('DOMContentLoaded', function () {
   tabController = document.getElementById("tabController");
-   tabObjects = [];
+  tabObjects = [];
   chrome.tabs.query({currentWindow: true}, function(tabs) {
       for (let i = 0; i < tabs.length; i++) {
+          var tabData = {
+              "title": tabs[i].title,
+              "url": tabs[i].url,
+              "faviconUrl": tabs[i].faviconUrl,
+              "description": ""
+          };
           var div = document.createElement("div");
-          var para = document.createElement("p");
-          var node = document.createTextNode("URL:" + tabs[i].url);
-          tabObjects.push({"URL": tabs[i].url});
-          para.appendChild(node);
-          div.appendChild(para);
+          var tabDataNode = document.createTextNode(tabData.title);
+          div.appendChild(tabDataNode);
           tabController.appendChild(div);
+          tabObjects.push(tabData);
       }
   });
   tabController.addEventListener('click', click);
