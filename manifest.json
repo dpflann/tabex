@@ -1,6 +1,6 @@
 {
-  "name": "A browser action with a popup that changes the page color",
-  "description": "Change the current page color",
+  "name": "A browser action with a popup that allows sending tab data to an endpoint.",
+  "description": "Export tab data by posting it to an endpoint.",
   "version": "1.0",
   "permissions": [
     "activeTab",
@@ -9,8 +9,8 @@
     "https://*/"
   ],
   "browser_action": {
-      "default_title": "Set this page's color.",
-      "default_icon": "icon.png",
+      "default_title": "Export tab data",
+      "default_icon": "favicon-256.png",
       "default_popup": "popup.html"
   },
   "background": {
