@@ -5,7 +5,6 @@
 'use strict';
 
 function exportTabs(e) {
-    alert("exp?");
     for (var i = 0; i < tabObjects.length; i++) {
         tabObjects[i].description = document.getElementById(tabObjects[i].id + "_description").value;
     }
