@@ -32,18 +32,18 @@ const exportToEndpoint = (data, endpoint, endpointUrl) => {
 }
 
 const forEndpoint = (data) => {
-    return data
+    return data;
 };
 
 const forSlack = (data) => {
     var slackAttachmentPayload = {
-            "text": "Exported Tabs...",
+            "text": data.description,
             "attachments": []
         };
     var slackAttachments = [];
     var colorForSubmission = getRandomColorHex();
-    for (var i = 0; i < data.length; i++) {
-        slackAttachments.push(slackAttachment(colorForSubmission, data[i]));
+    for (var i = 0; i < data.tabs.length; i++) {
+        slackAttachments.push(slackAttachment(colorForSubmission, data.tabs[i]));
     }
     slackAttachmentPayload["attachments"] = slackAttachments;
     return slackAttachmentPayload
@@ -62,7 +62,7 @@ const slackAttachment = (color, tabData) => {
         "footer": "Another TabEx Export",
         "footer_icon": tabData.faviconUrl,
         "ts": Date.now() / 1000
-    }
+    };
 };
 
 const getRandomColorHex = () => {
