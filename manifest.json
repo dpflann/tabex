@@ -1,5 +1,5 @@
 {
-  "name": "A browser action with a popup that allows sending tab data to an endpoint.",
+  "name": "TabEx",
   "description": "Export tab data by posting it to an endpoint.",
   "version": "1.0",
   "permissions": [
