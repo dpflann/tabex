@@ -4,39 +4,54 @@
 
 'use strict';
 
-function click(e) {
-    alert(e.target.id);
-}
-
 function exportTabs(e) {
-    alert("Export tabs");
+    alert("exp?");
+    for (var i = 0; i < tabObjects.length; i++) {
+        tabObjects[i].description = document.getElementById(tabObjects[i].id + "_description").value;
+    }
     chrome.runtime.sendMessage({ message: "save_text", data: tabObjects});
 }
 
 var tabController = {};
 var dumpTabs = {};
 var tabObjects = [];
+var options = {};
+var modal = {};
+var span = {};
+
 
 document.addEventListener('DOMContentLoaded', function () {
-  tabController = document.getElementById("tabController");
-  tabObjects = [];
-  chrome.tabs.query({currentWindow: true}, function(tabs) {
-      for (let i = 0; i < tabs.length; i++) {
-          var tabData = {
-              "title": tabs[i].title,
-              "url": tabs[i].url,
-              "faviconUrl": tabs[i].faviconUrl,
-              "description": ""
-          };
-          var div = document.createElement("div");
-          var tabDataNode = document.createTextNode(tabData.title);
-          div.appendChild(tabDataNode);
-          tabController.appendChild(div);
-          tabObjects.push(tabData);
-      }
-  });
-  tabController.addEventListener('click', click);
-  dumpTabs = document.getElementById('dumpTabs');
-  dumpTabs.addEventListener('click', exportTabs);
+    tabController = document.getElementById("tabController");
+    tabObjects = [];
+    chrome.tabs.query({currentWindow: true}, function(tabs) {
+        for (let i = 0; i < tabs.length; i++) {
+            var tabData = {
+                "id": "div-tab-" + i,
+                "title": tabs[i].title,
+                "url": tabs[i].url,
+                "faviconUrl": tabs[i].faviconUrl,
+                "description": ""
+            };
+            var div = document.createElement("div");
+            div.setAttribute("id", tabData.id);
+            var tabDataNode = document.createTextNode(tabData.title);
+            var description = document.createElement("textarea");
+            description.setAttribute("id", tabData.id + "_description");
+            div.appendChild(tabDataNode);
+            div.appendChild(description);
+            tabController.appendChild(div);
+            tabObjects.push(tabData);
+        }
+    });
+    dumpTabs = document.getElementById('dumpTabs');
+    dumpTabs.addEventListener('click', exportTabs);
+    options = document.getElementById('go-to-options');
+    options.addEventListener('click', function() {
+        if (chrome.runtime.openOptionsPage) {
+            chrome.runtime.openOptionsPage();
+        } else {
+            window.open(chrome.runtime.getURL('options.html'));
+        }
+    });
 });
 
