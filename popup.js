@@ -8,7 +8,8 @@ function exportTabs(e) {
     for (var i = 0; i < tabObjects.length; i++) {
         tabObjects[i].description = document.getElementById(tabObjects[i].id + "_description").value;
     }
-    chrome.runtime.sendMessage({ message: "save_text", data: tabObjects});
+    var desc = document.getElementById("textarea_group_description").value;
+    chrome.runtime.sendMessage({ message: "save_text", data: {"description": desc, "tabs": tabObjects}});
 }
 
 var tabController = {};
@@ -22,6 +23,15 @@ var span = {};
 document.addEventListener('DOMContentLoaded', function () {
     tabController = document.getElementById("tabController");
     tabObjects = [];
+    var groupDescriptionDiv = document.createElement("div");
+    groupDescriptionDiv.setAttribute("id", "div_group_description");
+    groupDescriptionDiv.style['background-color'] = '#eeeeee';
+    var groupDescription = document.createElement("textarea");
+    var groupDescriptionTitle = document.createTextNode("Overall Description");
+    groupDescriptionDiv.appendChild(groupDescriptionTitle);
+    groupDescriptionDiv.appendChild(groupDescription);
+    groupDescription.setAttribute("id", "textarea_group_description");
+    tabController.appendChild(groupDescriptionDiv);
     chrome.tabs.query({currentWindow: true}, function(tabs) {
         for (let i = 0; i < tabs.length; i++) {
             var tabData = {

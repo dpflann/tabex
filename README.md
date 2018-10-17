@@ -34,6 +34,7 @@ The format of the request is:
 
 ```
 {
+    "description": "<description for the group of exported tabs">,
     "tabs": [
         {
             "title": "<title>", // obtained from the tab
