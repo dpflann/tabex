@@ -4,9 +4,11 @@ const saveExtractedText = (data) => {
 
 const exportTabs = function(data) {
     return function(endpoints) {
+        var results = [];
         for (var endpoint in endpoints) {
-            exportToEndpoint(data, endpoint, endpoints[endpoint]);
+            results.push(exportToEndpoint(data, endpoint, endpoints[endpoint]));
         }
+        chrome.runtime.sendMessage({ message: "export_complete", data: {"results": results}});
     }
 }
 
@@ -28,7 +30,7 @@ const exportToEndpoint = (data, endpoint, endpointUrl) => {
     }
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send(JSON.stringify(data));
-    var result = xhr.responseText;
+    return xhr;
 }
 
 const forEndpoint = (data) => {
