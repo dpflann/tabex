@@ -13,6 +13,9 @@ function save_options() {
         setTimeout(function() {
             status.textContent = '';
         }, 750);
+        setTimeout(function() {
+            window.close();
+        }, 750);
     });
 }
 
