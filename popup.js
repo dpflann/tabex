@@ -12,6 +12,24 @@ function exportTabs(e) {
     chrome.runtime.sendMessage({ message: "save_text", data: {"description": desc, "tabs": tabObjects}});
 }
 
+chrome.runtime.onMessage.addListener(
+    (request, sender, senderResponse) => {
+        switch (request.message) {
+            case 'export_complete': {
+                // Relay back success and failure
+                var exportButton = document.getElementById("dumpTabs");
+                exportButton.style.backgroundColor = "#aaccdd";
+                exportButton.textContent = "Exported!";
+                setTimeout(function() {
+                    window.close();
+                }, 750);
+                break;
+            }
+            default:
+        }
+    }
+);
+
 var tabController = {};
 var dumpTabs = {};
 var tabObjects = [];
